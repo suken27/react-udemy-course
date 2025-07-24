@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import React from 'react';
 
-export default function Tabs({ children, buttons }) {
+export interface TabsProps {
+    readonly children: React.ReactNode;
+    readonly buttons: React.ReactNode;
+    readonly ButtonsContainer?: React.ElementType;
+}
 
+export default function Tabs({ children, buttons, ButtonsContainer = "menu" }: TabsProps) {
     return (
         <>
-            <menu>
+            <ButtonsContainer>
                 {buttons}
-            </menu>
+            </ButtonsContainer>
             {children}
         </>
     );
