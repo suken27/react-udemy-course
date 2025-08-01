@@ -11,40 +11,15 @@ export type Settings = {
 
 export default function Calculator() {
 
-    const [settings, setSettings] = useState({ initialInvestment: 0, annualInvestment: 0, expectedReturn: 0, duration: 0 } as Settings);
+    const [settings, setSettings] = useState({ initialInvestment: 15000, annualInvestment: 1200, expectedReturn: 6, duration: 10 } as Settings);
 
-    function handleInitialInvestmentChange(newValue: number) {
+    const inputIsValid = settings.duration > 0;
+
+    function handleChange(inputIdentifier: string, newValue: number) {
         setSettings((oldValue) => {
             return {
                 ...oldValue,
-                initialInvestment: newValue
-            }
-        });
-    }
-
-    function handleAnnualInvestmentChange(newValue: number) {
-        setSettings((oldValue) => {
-            return {
-                ...oldValue,
-                annualInvestment: newValue
-            }
-        });
-    }
-
-    function handleExpectedReturnChange(newValue: number) {
-        setSettings((oldValue) => {
-            return {
-                ...oldValue,
-                expectedReturn: newValue
-            }
-        });
-    }
-
-    function handleDurationChange(newValue: number) {
-        setSettings((oldValue) => {
-            return {
-                ...oldValue,
-                duration: newValue
+                [inputIdentifier]: newValue
             }
         });
     }
@@ -53,15 +28,16 @@ export default function Calculator() {
         <>
             <div id="user-input">
                 <div className="input-group">
-                    <InputField label="Initial investment" value={settings.initialInvestment} onChange={handleInitialInvestmentChange} />
-                    <InputField label="Annual investment" value={settings.annualInvestment} onChange={handleAnnualInvestmentChange} />
+                    <InputField label="Initial investment" value={settings.initialInvestment} onChange={(newValue: number) => handleChange('initialInvestment', newValue)} />
+                    <InputField label="Annual investment" value={settings.annualInvestment} onChange={(newValue: number) => handleChange('annualInvestment', newValue)} />
                 </div>
                 <div className="input-group">
-                    <InputField label="Expected return" value={settings.expectedReturn} onChange={handleExpectedReturnChange} />
-                    <InputField label="Duration" value={settings.duration} onChange={handleDurationChange} />
+                    <InputField label="Expected return" value={settings.expectedReturn} onChange={(newValue) => handleChange('expectedReturn', newValue)} />
+                    <InputField label="Duration" value={settings.duration} onChange={(newValue) => handleChange('duration', newValue)} />
                 </div>
             </div>
-            <Results settings={settings} />
+            {!inputIsValid && <p className="center">Please enter a duration greater than zero</p>}
+            {inputIsValid && <Results settings={settings} />}
         </>
     );
 

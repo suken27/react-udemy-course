@@ -7,9 +7,9 @@ export default function InputField({ label, value, onChange }: {label: string, v
     }
 
     return (
-        <div>
+        <p>
             <label>{label}</label>
-            <input type="number" onChange={handleValueChange} value={value}/>
-        </div>
+            <input type="number" onChange={handleValueChange} value={value} required />
+        </p>
     );
 }
